@@ -1,0 +1,18 @@
+Вот код, который решает поставленную задачу (его необходимо поместить в файл functions.php вашей темы):
+function wp_nav_menu_no_current_link( $atts, $item, $args, $depth ) {
+	if ( $item->current ) $atts['href'] = '';
+	return $atts;
+}
+add_action( 'nav_menu_link_attributes', 'wp_nav_menu_no_current_link', 10, 4 );
+
+
+Если есть необходимость применить это только для конкретного меню, то код будет таким:
+function wp_nav_menu_no_current_link( $atts, $item, $args, $depth ) {
+	if ( $args->theme_location == 'menu_name' ) {
+		if ( $item->current ) $atts['href'] = '';
+	}
+	return $atts;
+}
+add_action( 'nav_menu_link_attributes', 'wp_nav_menu_no_current_link', 10, 4 );
+
+Здесь menu_name — это идентификатор, который указывается в функции register_nav_menu () и в параметре theme_location функции wp_nav_menu ().
